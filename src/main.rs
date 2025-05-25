@@ -50,6 +50,12 @@ impl Machine for KvsMachine {
                 let value = self.entries.remove(&key);
                 ctx.output(&value);
             }
+
+            // ハッシュマップに格納されている一番大きな整数値を探す
+            KvsInput::Max => {
+                let max = self.entries.values().filter_map(|v| v.as_i64()).max();
+                ctx.output(&max);
+            }
         }
     }
 }
@@ -72,4 +78,7 @@ enum KvsInput {
     Delete {
         key: String,
     },
+
+    // ハッシュマップに格納されている一番大きな整数値を探す
+    Max,
 }
